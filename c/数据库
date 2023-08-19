@@ -1,0 +1,109 @@
+
+create database lesson
+
+
+create table class
+(
+	classID int primary key,
+	classname char(20)
+)
+
+create table student
+(
+	studentID int primary key,
+	name	  char(10) not null,
+	sex		  char(2)  not null check(sex='F' or sex='M'),
+	classID   int references class(classID)
+)
+
+
+create table teacher
+(
+	teacherID int primary key,
+	name	  char(10) not null,
+	sex		  char(2)  not null check(sex='F' or sex='M'),
+	age		  int	   not null	
+)
+
+create table course
+(
+	courseID   int primary key,
+	coursename char(20)
+)
+
+create table course_schdule
+(
+   classID    int,
+   teacherID  int,
+   courseID   int,
+   weeks      int not null check(weeks>0 and weeks<8),
+   lessons    int not null check(lessons>0 and lessons<9),
+   remark     char(100),
+   constraint pk_schdule primary key(classID,teacherID,courseID,weeks,lessons),
+   constraint fk_classID foreign key (classID) references class(classID),
+   constraint fk_teacherID foreign key (teacherID)references teacher(teacherID),
+   constraint fk_courseID foreign key  (courseID)references course(courseID)
+)
+use lesson
+
+insert into class values('01','物联网')
+insert into class values('02','市场营销')
+insert into class values('03','机电')
+insert into class values('04','电气')
+insert into class values('05','软件')
+
+use lesson
+insert into student values('1201','白某','M','01')
+insert into student values('1202','贾某','M','01')
+insert into student values('1203','王某','M','02')
+insert into student values('1204','龚某','F','02')
+insert into student values('1205','邢某','M','03')
+insert into student values('1206','戴某','M','03')
+insert into student values('1207','刘某','F','04')
+insert into student values('1208','陈某','F','04')
+insert into student values('1209','韩某','M','05')
+insert into student values('1210','袁某','F','05')
+
+use lesson
+
+insert into teacher values('001','韩韩','M','35')
+insert into teacher values('002','周周','F','40')
+insert into teacher values('003','石石','M','45')
+insert into teacher values('004','费费','M','43')
+insert into teacher values('005','胡胡','M','37')
+insert into teacher values('006','田田','F','43')
+insert into teacher values('007','姚姚','M','45')
+insert into teacher values('008','喻喻','F','36')
+insert into teacher values('009','刘刘','F','30')
+insert into teacher values('010','李李','M','31')
+
+use lesson
+
+insert into course values('0001','复变')
+insert into course values('0002','模电')
+insert into course values('0003','信号')
+insert into course values('0004','电拖')
+insert into course values('0005','概率')
+insert into course values('0006','英语')
+insert into course values('0007','口语')
+insert into course values('0008','数据库')
+insert into course values('0009','电路')
+insert into course values('0010','大物')
+insert into course values('0011','马原')
+
+use lesson
+
+insert into course_schdule values('1','001','0004',1,5,'第1周到第5周')
+insert into course_schdule values('1','001','0004',1,6,'第1周到第5周')
+insert into course_schdule values('1','002','0007',1,1,'第1周到第6周')
+insert into course_schdule values('1','002','0007',1,2,'第1周到第6周')
+insert into course_schdule values('1','003','0001',3,3,'第1周到第5周')
+insert into course_schdule values('1','003','0001',3,4,'第1周到第5周')
+insert into course_schdule values('1','004','0008',5,7,'第5周到第10周')
+insert into course_schdule values('1','004','0008',5,8,'第5周到第10周')
+insert into course_schdule values('2','001','0004',1,3,'第1周到第5周')
+insert into course_schdule values('2','001','0004',1,4,'第1周到第5周')
+insert into course_schdule values('2','005','0011',2,1,'第2周到第3周')
+insert into course_schdule values('2','005','0011',2,2,'第2周到第3周')
+insert into course_schdule values('2','005','0011',2,3,'第2周到第3周')
+insert into course_schdule values('2','005','0011',2,4,'第2周到第3周')
